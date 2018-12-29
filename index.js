@@ -26,7 +26,8 @@ server.listen(1500, function () {
 */
 // --- Settings ---
 app.set('appname','GrupoKD');
-
+app.set('views',__dirname+'/views');
+app.set('view engine','ejs');
 
 // --- Middleware ---
 app.use(morgan('dev', {
@@ -36,9 +37,17 @@ app.use(morgan('dev', {
 
 // ---  Rutas ---
 app.get('/',(req,res)=>{
-    res.write('<h1>Hola Mundo con Express y Node.js');
-    res.end();
+    //res.write('<h1>Hola Mundo con Express y Node.js');
+    //res.end();
+    res.render('index.ejs');
 });
+app.get('/acceso',(req,res)=>{
+    //res.write('<h1>Hola Mundo con Express y Node.js');
+    //res.end();
+    res.render('acceso.ejs');
+});
+
+
 app.get('*',(req,res)=>{
     res.write('Pagina no encontrada!!!');
     res.end();
