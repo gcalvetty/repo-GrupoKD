@@ -1,6 +1,10 @@
 const mat = require('./matematicas'); 
 const color = require('colors');
+// iniciamos el servidor
 const express = require('express');
+const app = express();
+
+const morgan = require('morgan');
 
 // console.log('hola mundo'); 
 // console.log(mat); 
@@ -19,14 +23,30 @@ const server = http.createServer(handleServer);
 server.listen(1500, function () {
     console.log('Server en el puerto 1500'.bgBlue);    
 })
-
 */
+// --- Settings ---
+app.set('appname','GrupoKD');
 
-const server = express();
-server.get('/',(request,response)=>{
-    response.send('<h1>Hola Mundo con Express y Node.js');
-    response.end();
+
+// --- Middleware ---
+app.use(morgan('dev', {
+    skip: function (req, res) { return res.statusCode < 400 }
+  })); // dev mustra informacion de la peticion.
+
+
+// ---  Rutas ---
+app.get('/',(req,res)=>{
+    res.write('<h1>Hola Mundo con Express y Node.js');
+    res.end();
 });
-server.listen(1500,()=>{
-    console.log('Sever en el puerto 1500'.red);
+app.get('*',(req,res)=>{
+    res.write('Pagina no encontrada!!!');
+    res.end();
+});
+
+
+// --- levantando servidor
+app.listen(1500,()=>{
+    console.log('Server Funcionando - en el puerto 1500'.red);
+    console.log('Nombre de la App:'.blue,app.get('appname').green);
 });
